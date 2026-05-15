@@ -10,19 +10,20 @@ class ProductoController extends Controller
 {
     public function index()
     {
-        return response()->json(Producto::all());
+        $productos = Producto::where('persona_id', auth()->id())->get();
+        return response()->json($productos);
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'nombre'      => 'required|string',
+            'nombre' => 'required|string',
             'descripcion' => 'nullable|string',
-            'precio'      => 'required|numeric',
-            'stock'       => 'nullable|integer',
-            'imagen'      => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
-            'latitud'     => 'nullable|numeric',
-            'longitud'    => 'nullable|numeric',
+            'precio' => 'required|numeric',
+            'stock' => 'nullable|integer',
+            'imagen' => 'nullable|image|mimes:jpg,jpeg,png|max:2048',
+            'latitud' => 'nullable|numeric',
+            'longitud' => 'nullable|numeric',
         ]);
 
         $imagen_url = null;
@@ -32,18 +33,18 @@ class ProductoController extends Controller
         }
 
         $producto = Producto::create([
-            'nombre'      => $request->nombre,
+            'nombre' => $request->nombre,
             'descripcion' => $request->descripcion,
-            'precio'      => $request->precio,
-            'stock'       => $request->stock ?? 0,
-            'imagen_url'  => $imagen_url,
-            'latitud'     => $request->latitud,
-            'longitud'    => $request->longitud,
-            'persona_id'  => auth()->id(),
+            'precio' => $request->precio,
+            'stock' => $request->stock ?? 0,
+            'imagen_url' => $imagen_url,
+            'latitud' => $request->latitud,
+            'longitud' => $request->longitud,
+            'persona_id' => auth()->id(),
         ]);
 
         return response()->json([
-            'message'  => 'Producto creado exitosamente',
+            'message' => 'Producto creado exitosamente',
             'producto' => $producto,
         ], 201);
     }
@@ -77,7 +78,7 @@ class ProductoController extends Controller
         $producto->save();
 
         return response()->json([
-            'message'  => 'Producto actualizado exitosamente',
+            'message' => 'Producto actualizado exitosamente',
             'producto' => $producto,
         ]);
     }
