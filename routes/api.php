@@ -10,6 +10,7 @@ Route::post('/register', [AuthController::class, 'register']);
 Route::post('/login',    [AuthController::class, 'login']);
 Route::post('/forgot-password', [PasswordResetController::class, 'forgotPassword']);
 Route::post('/reset-password',  [PasswordResetController::class, 'resetPassword']);
+Route::post('/auth/google', [AuthController::class, 'googleLogin']);
 
 // Rutas protegidas (requieren token JWT)
 Route::middleware('auth:api')->group(function () {
