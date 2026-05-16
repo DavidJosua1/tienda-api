@@ -15,6 +15,7 @@ Route::post('/reset-password',  [PasswordResetController::class, 'resetPassword'
 Route::middleware('auth:api')->group(function () {
     Route::post('/logout', [AuthController::class, 'logout']);
     Route::get('/me',      [AuthController::class, 'me']);
+    Route::put('/update-location', [AuthController::class, 'updateLocation']);
 
     // CRUD Productos
     Route::get('/productos',          [ProductoController::class, 'index']);

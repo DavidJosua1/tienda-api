@@ -12,25 +12,25 @@ class AuthController extends Controller
     public function register(Request $request)
     {
         $request->validate([
-            'nombre'    => 'required|string',
+            'nombre' => 'required|string',
             'apellidos' => 'required|string',
-            'email'     => 'required|email|unique:personas',
-            'password'  => 'required|min:6',
+            'email' => 'required|email|unique:personas',
+            'password' => 'required|min:6',
         ]);
 
         $user = User::create([
-            'nombre'    => $request->nombre,
+            'nombre' => $request->nombre,
             'apellidos' => $request->apellidos,
-            'email'     => $request->email,
-            'password'  => Hash::make($request->password),
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
         ]);
 
         $token = JWTAuth::fromUser($user);
 
         return response()->json([
             'message' => 'Usuario registrado exitosamente',
-            'token'   => $token,
-            'user'    => $user,
+            'token' => $token,
+            'user' => $user,
         ], 201);
     }
 
@@ -46,8 +46,8 @@ class AuthController extends Controller
 
         return response()->json([
             'message' => 'Login exitoso',
-            'token'   => $token,
-            'user'    => auth()->user(),
+            'token' => $token,
+            'user' => auth()->user(),
         ]);
     }
 
@@ -62,5 +62,21 @@ class AuthController extends Controller
     public function me()
     {
         return response()->json(auth()->user());
+    }
+    public function updateLocation(Request $request)
+    {
+        $request->validate([
+            'latitud' => 'required|numeric',
+            'longitud' => 'required|numeric',
+        ]);
+
+        auth()->user()->update([
+            'latitud' => $request->latitud,
+            'longitud' => $request->longitud,
+        ]);
+
+        return response()->json([
+            'message' => 'Ubicación actualizada exitosamente'
+        ]);
     }
 }
