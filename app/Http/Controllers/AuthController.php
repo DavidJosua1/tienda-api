@@ -97,7 +97,7 @@ class AuthController extends Controller
             $googleId = $payload['sub'];
             $email = $payload['email'];
             $nombre = $payload['given_name'] ?? 'Usuario';
-            $apellidos = $payload['family_name'] ?? 'Google';
+            $apellidos = $payload['family_name'] ?? '';
             $fotoUrl = $payload['picture'] ?? null;
 
             $user = User::where('google_id', $googleId)
